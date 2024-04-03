@@ -1,3 +1,8 @@
+## MyApp
+
+MYAPP adalah aplikasi dashboard dan backend untuk online shop (e-commerce) sebagai pendukung untuk aplikasi online shop berbasis android (flutter).
+MYAPP dibuat dengan framework laravel 11.
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
