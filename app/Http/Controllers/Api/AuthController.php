@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\facades\hash;
+use Illuminate\Support\facades\Hash;
 
 class AuthController extends Controller
 {
@@ -16,9 +16,10 @@ class AuthController extends Controller
             'email' => 'required|unique:users|max:100',
             'password' => 'required',
             'phone' => 'string',
-            'roles' => 'alpha'
+            // 'roles' => 'alpha'
         ]);
         $validated['password'] = Hash::make($validated['password']);
+        $validated['roles'] = 'USER';
 
         $user = User::create($validated);
         $token = $user->createToken('auth_token')->plainTextToken;
@@ -63,6 +64,26 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'Logout success',
+        ], 200);
+    }
+
+    public function updateFcmId(Request $request) {
+        $validated = $request->validate([
+            'fcm_id' => 'required'
+        ]);
+
+        if(!$validated) {
+            return response()->json([
+                'message' => 'FCM ID required!',
+            ], 400);
+        }
+
+        $user = $request->user();
+        $user->fcm_id = $validated['fcm_id'];
+        $user->save();
+
+        return response()->json([
+            'message' => 'FCM ID updated.',
         ], 200);
     }
 

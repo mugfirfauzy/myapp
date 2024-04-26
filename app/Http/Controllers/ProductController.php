@@ -8,7 +8,7 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
+
 
 class ProductController extends Controller
 {
@@ -44,17 +44,21 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-
-        $filename = time().'.'.$request->image->extension();
-        $request->image->storeAs('public/products', $filename);
-        // $data = $request->all();
+        if($request->hasFile('image')) {
+            $filename = time().'.'.$request->image->extension();
+            $path = 'storage/product/'.$filename;
+            $request->image->storeAs('public/product', $filename);
+        } else {
+            $path = "";
+        }
 
         $product = new Product;
         $product->name = $request->name;
         $product->price = (int) $request->price;
         $product->stock = (int) $request->stock;
         $product->category_id = $request->category_id;
-        $product->image = $filename;
+        $product->description = $request->description;
+        $product->image = $path;
         $product->save();
 
         // $data['image'] = $request->file('image')->store('assets/product', 'public');
@@ -73,19 +77,38 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $product)
+    public function edit($product_id)
     {
-        $product = Product::get();
+        $product = Product::findOrFail($product_id);
+        $categories = Category::get();
 
-        return view('pages.product.edit', compact('categories,product'));
+        return view('pages.product.edit', compact('product', 'categories'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProductRequest $request, Product $product)
+    public function update(UpdateProductRequest $request, $product_id)
     {
-        //
+        $product = Product::findOrFail($product_id);
+
+        if($request->hasFile('image')) {
+            $filename = time().'.'.$request->image->extension();
+            $path = 'storage/product/'.$filename;
+            $request->image->storeAs('public/product', $filename);
+        } else {
+            $path = $product->image;
+        }
+
+        $product->name = $request->name;
+        $product->price = (int) $request->price;
+        $product->stock = (int) $request->stock;
+        $product->category_id = $request->category_id;
+        $product->description = $request->description;
+        $product->image = $path;
+        $product->update();
+
+        return redirect()->route('product.index')->with('success', 'Product successfully edited.');
     }
 
     /**

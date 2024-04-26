@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'phone',
+        'fcm_id',
         'roles',
     ];
 
@@ -47,4 +48,16 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function addresses() {
+        return $this->hasMany(Address::class);
+    }
+
+    public function order() {
+        return $this->hasMany(Order::class);
+    }
+
+
+
+
 }

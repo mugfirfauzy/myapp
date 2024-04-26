@@ -7,9 +7,6 @@ use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-
-use function Laravel\Prompts\select;
 
 class CategoryController extends Controller
 {
@@ -49,16 +46,17 @@ class CategoryController extends Controller
     {
         if($request->hasFile('image')) {
             $filename = time().'.'.$request->image->extension();
+            $path = 'storage/category/'.$filename;
             $request->image->storeAs('public/category', $filename);
         } else {
-            $filename = "";
+            $path = "";
         }
 
         $category = new Category;
         $category->name = $request->name;
         $category->description = $request->description;
         $category->active = $request->active;
-        $category->image = $filename;
+        $category->image = $path;
         $category->save();
 
         return redirect()->route('category.index')->with('success', 'Category successfully created.');
@@ -84,14 +82,16 @@ class CategoryController extends Controller
         if($type == 'update') {
             if($request->hasFile('image')) {
                 $filename = time().'.'.$request->image->extension();
+                $path = 'storage/category/'.$filename;
+                $request->image->storeAs('public/category', $filename);
             } else {
-                $filename = $category->image;
+                $path = $category->image;
             }
 
             $category->name = $request->name;
             $category->description = $request->description;
             $category->active = $request->active;
-            $category->image = $filename;
+            $category->image = $path;
             $category->update();
 
             return redirect()->route('category.index')->with('success', 'Category successfully edited.');

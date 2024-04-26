@@ -64,7 +64,7 @@
                                 <div class="table-responsive">
                                     <table class="table-striped table">
                                         <tr>
-
+                                            <th>#</th>
                                             <th>Name</th>
                                             <th>Category</th>
                                             <th>Description</th>
@@ -75,30 +75,18 @@
                                             <th>Active</th>
                                             <th>Action</th>
                                         </tr>
+                                        @php $no=1; @endphp
                                         @foreach ($products as $prod)
                                             <tr>
-
-                                                <td>{{ $prod->name }}
-                                                </td>
-                                                <td>
-                                                    {{ $prod->category_name }}
-                                                </td>
-                                                <td>
-                                                    {{ $prod->description }}
-                                                </td>
-                                                <td>
-                                                    {{ $prod->image }}
-                                                </td>
-                                                <td>
-                                                    {{ $prod->price }}
-                                                </td>
-                                                <td>
-                                                    {{ $prod->stock }}
-                                                </td>
+                                                <td>{{ $no }}</td>
+                                                <td>{{ $prod->name }}</td>
+                                                <td>{{ $prod->category_name }}</td>
+                                                <td>{{ $prod->description }}</td>
+                                                <td><img src="{{ $prod->image }}" style="width:80px;"></td>
+                                                <td>{{ $prod->price }}</td>
+                                                <td>{{ $prod->stock }}</td>
                                                 <td>{{ $prod->created_at }}</td>
-                                                <td>
-                                                    {{ $prod->active }}
-                                                </td>
+                                                <td>{{ $prod->active }}</td>
                                                 <td>
                                                     <div class="d-flex justify-content-center">
                                                         <a href='{{ route('product.edit', $prod->id) }}'
@@ -119,6 +107,7 @@
                                                     </div>
                                                 </td>
                                             </tr>
+                                            @php $no++; @endphp
                                         @endforeach
 
 

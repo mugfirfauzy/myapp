@@ -65,6 +65,7 @@
                                     <table class="table-striped table">
                                         <tr>
 
+                                            <th>#</th>
                                             <th>Name</th>
                                             <th>DESCRIPTION</th>
                                             <th>IMAGE</th>
@@ -72,21 +73,15 @@
                                             <th>Active</th>
                                             <th>Action</th>
                                         </tr>
+                                        @php $no=1; @endphp
                                         @foreach ($category as $cat)
                                             <tr>
-
-                                                <td>{{ $cat->name }}
-                                                </td>
-                                                <td>
-                                                    {{ $cat->description }}
-                                                </td>
-                                                <td>
-                                                    {{ $cat->image }}
-                                                </td>
+                                                <td>{{ $no }}</td>
+                                                <td>{{ $cat->name }}</td>
+                                                <td>{{ $cat->description }}</td>
+                                                <td><img src="{{ $cat->image }}" style="width:100px;"></td>
                                                 <td>{{ $cat->created_at }}</td>
-                                                <td>
-                                                    {{ $cat->active }}
-                                                </td>
+                                                <td>{{ $cat->active }}</td>
                                                 <td>
                                                     <div class="d-flex justify-content-center">
                                                         <a href='{{ route('category.edit', $cat->id) }}'
@@ -121,6 +116,7 @@
                                                     </div>
                                                 </td>
                                             </tr>
+                                            @php $no++; @endphp
                                         @endforeach
 
 

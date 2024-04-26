@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Product Create')
+@section('title', 'Create New Product')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -88,6 +88,11 @@
                                             {{ $category->name }}</option>
                                     @endforeach
                                 </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea class="form-control" name="description"></textarea>
                             </div>
 
                             <div class="form-group">
